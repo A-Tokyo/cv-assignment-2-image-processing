@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import time
 
 
 # Define helper functions
@@ -58,7 +59,12 @@ def meanVsGaus():
     printHistAndCommHist("outputs/cameramanNewFilteredGaus.png", "outputs/cameramanNewFilteredGausHisAndCommHis.png")
 
 def selectiveMedianFilter():
-    print("Todo selectiveMedianFilter")
+    image = cv2.imread("inputs/fognoise.png",0)
+    timeBeforeApplyingFilter = time.time()
+    timeAfterApplyingFilter = time.time()
+    runtimeApplyingFilter = timeAfterApplyingFilter - timeAfterApplyingFilter
+    print("Runtime for applying selective median filter: " + str(runtimeApplyingFilter))
+
 
 def contrastStrecthing():
     image = cv2.imread("inputs/frostfog.png",0)
