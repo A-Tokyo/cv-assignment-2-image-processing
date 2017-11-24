@@ -169,7 +169,7 @@ def mystery():
         for j in range (len(image[i])):
             value = modifiedImage[i][j] - image[i][j]
             if(value > 0):
-               newImage[i][j] = 80 + value
+               newImage[i][j] = 30 + value
 
     cv2.imwrite("outputs/mysteryNew.png", newImage)
 
