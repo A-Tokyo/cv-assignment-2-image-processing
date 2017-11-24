@@ -94,7 +94,7 @@ def selectiveMedianFilterEnhanced():
             value = image[i][j]
             pixelValues = []
 
-            if image[i][j] < 150:
+            if image[i][j] < 150 or image[i][j] > 35:
                 continue
 
             for fI in range (-2, 3):
@@ -168,7 +168,8 @@ def mystery():
     for i in range (len(image)):
         for j in range (len(image[i])):
             value = modifiedImage[i][j] - image[i][j]
-            newImage[i][j] = 150 + value
+            if(value > 0):
+               newImage[i][j] = 150 + value
 
     cv2.imwrite("outputs/mysteryNew.png", newImage)
 
