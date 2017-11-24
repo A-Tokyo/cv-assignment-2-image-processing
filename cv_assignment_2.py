@@ -65,6 +65,22 @@ def contrastStrecthing():
     cv2.imwrite("outputs/frostfogNewContrastStretching.png", newImage)
     printHistAndCommHist("outputs/frostfogNewContrastStretching.png", "outputs/frostfogNewContrastStretchingHisAndCommHis.png")
 
+def histogramEqualization():
+    image = cv2.imread("inputs/frostfog.png",0)
+    newImage = np.zeros((len(image),len(image[0]),3), np.uint8)
+    commHist = getCommHistogram(image)
+    pixelCount = len(image)*len(image[0])
+
+    for i in range (len(image)):
+        for j in range (len(image[i])):
+            value = image[i][j]
+            f = commHist[value]
+            newValue = f*(255/pixelCount)
+            newImage[i][j] = newValue
+
+    cv2.imwrite("outputs/frostfogNewHistogramEqualization.png", newImage)
+    printHistAndCommHist("outputs/frostfogNewHistogramEqualization.png", "outputs/frostfogNewHistogramEqualizationHisAndCommHis.png")
+
 def mystery():
     originalImage = cv2.imread("inputs/tree.png",0)
     modifiedImage = cv2.imread("inputs/treeM.png",0)
@@ -79,13 +95,21 @@ def mystery():
     cv2.imwrite("outputs/mysteryNew.png", diffImage)
 
 # Exec funcs
+# Q1
 printHistAndCommHist("inputs/cameraman.png", "outputs/cameramanNewHisAndCommHis.png")
 printHistAndCommHist("inputs/bat.png", "outputs/batNewHisAndCommHis.png")
 printHistAndCommHist("inputs/fog.png", "outputs/fogNewHisAndCommHis.png")
 printHistAndCommHist("inputs/fognoise.png", "outputs/fognoiseNewHisAndCommHis.png")
 
+# Q2
 cameraManMean()
 
+# Q3
 contrastStrecthing()
+histogramEqualization()
 
+# Q4
+
+
+# Q5 Bonus
 mystery()
