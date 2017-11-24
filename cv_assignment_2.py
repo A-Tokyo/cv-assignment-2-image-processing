@@ -32,5 +32,19 @@ def printHistAndCommHist(inputPath, outputPath):
     cv2.imwrite(outputPath, cameramanNew)
 
 
+def mystery():
+    originalImage = cv2.imread("inputs/tree.png",0)
+    modifiedImage = cv2.imread("inputs/treeM.png",0)
+    diffImage = np.zeros((len(originalImage),len(originalImage[0]),3), np.uint8)
+
+
+    for i in range (len(originalImage)):
+        for j in range (len(originalImage[i])):
+            value = modifiedImage[i][j] - originalImage[i][j]
+            diffImage[i][j] = value
+
+    cv2.imwrite("outputs/treeNew.png", diffImage)
+
 # Exec funcs
-printHistAndCommHist("inputs/cameraman.png", "outputs/cameramanNew.png")
+# printHistAndCommHist("inputs/cameraman.png", "outputs/cameramanNew.png")
+mystery()
