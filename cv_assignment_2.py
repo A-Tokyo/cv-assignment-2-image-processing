@@ -46,5 +46,8 @@ def mystery():
     cv2.imwrite("outputs/treeNew.png", diffImage)
 
 # Exec funcs
-# printHistAndCommHist("inputs/cameraman.png", "outputs/cameramanNew.png")
+printHistAndCommHist("inputs/cameraman.png", "outputs/cameramanNew.png")
+printHistAndCommHist("inputs/bat.png", "outputs/batNew.png")
+printHistAndCommHist("inputs/fog.png", "outputs/fogNew.png")
+printHistAndCommHist("inputs/fognoise.png", "outputs/fognoiseNew.png")
 mystery()
