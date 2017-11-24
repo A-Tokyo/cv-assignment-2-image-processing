@@ -31,6 +31,17 @@ def printHistAndCommHist(inputPath, outputPath):
 
     cv2.imwrite(outputPath, cameramanNew)
 
+def cameraManMean():
+    cameraman = cv2.imread("inputs/cameraman.png",0)
+
+    cameramanFilteredMean = cv2.blur(cameraman,(5,5))
+    cv2.imwrite("outputs/cameramanNewFilteredMean.png", cameramanFilteredMean)
+    printHistAndCommHist("outputs/cameramanNewFilteredMean.png", "outputs/cameramanNewFilteredMeanHisAndCommHis.png")
+
+    cameramanFilteredGaus = cv2.GaussianBlur(cameraman,(5,5),0)
+    cv2.imwrite("outputs/cameramanNewFilteredGaus.png", cameramanFilteredGaus)
+    printHistAndCommHist("outputs/cameramanNewFilteredGaus.png", "outputs/cameramanNewFilteredGausHisAndCommHis.png")
+
 
 def mystery():
     originalImage = cv2.imread("inputs/tree.png",0)
@@ -43,11 +54,14 @@ def mystery():
             value = modifiedImage[i][j] - originalImage[i][j]
             diffImage[i][j] = value
 
-    cv2.imwrite("outputs/treeNew.png", diffImage)
+    cv2.imwrite("outputs/mysteryNew.png", diffImage)
 
 # Exec funcs
-printHistAndCommHist("inputs/cameraman.png", "outputs/cameramanNew.png")
-printHistAndCommHist("inputs/bat.png", "outputs/batNew.png")
-printHistAndCommHist("inputs/fog.png", "outputs/fogNew.png")
-printHistAndCommHist("inputs/fognoise.png", "outputs/fognoiseNew.png")
+printHistAndCommHist("inputs/cameraman.png", "outputs/cameramanNewHisAndCommHis.png")
+printHistAndCommHist("inputs/bat.png", "outputs/batNewHisAndCommHis.png")
+printHistAndCommHist("inputs/fog.png", "outputs/fogNewHisAndCommHis.png")
+printHistAndCommHist("inputs/fognoise.png", "outputs/fognoiseNewHisAndCommHis.png")
+
+cameraManMean()
+
 mystery()
