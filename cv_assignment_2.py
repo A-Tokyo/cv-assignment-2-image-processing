@@ -58,7 +58,7 @@ def meanVsGaus():
     cv2.imwrite("outputs/cameramanNewFilteredGaus.png", imageFilteredGaus)
     printHistAndCommHist("outputs/cameramanNewFilteredGaus.png", "outputs/cameramanNewFilteredGausHisAndCommHis.png")
 
-def selectiveMedianFilter():
+def selectiveMedianFilterBasic():
     image = cv2.imread("inputs/fognoise.png",0)
     newImage = np.zeros((len(image),len(image[0]),3), np.uint8)
     timeBeforeApplyingFilter = time.clock()
@@ -82,6 +82,42 @@ def selectiveMedianFilter():
     runtimeApplyingFilter = timeAfterApplyingFilter - timeBeforeApplyingFilter
     cv2.imwrite("outputs/fogNoiseNewSelectiveMedianFilterBasic.png", newImage)
     print("Runtime for applying selective median filter: " + str(runtimeApplyingFilter))
+    return runtimeApplyingFilter
+
+def selectiveMedianFilterEnhanced():
+    image = cv2.imread("inputs/fognoise.png",0)
+    newImage = np.zeros((len(image),len(image[0]),3), np.uint8)
+    timeBeforeApplyingFilter = time.clock()
+
+    for i in range (len(image)):
+        for j in range (len(image[i])):
+            value = image[i][j]
+            pixelValues = []
+
+            if image[i][j] < 150:
+                continue
+
+            for fI in range (-2, 3):
+                for fJ in range (-2, 3):
+                    try:
+                        pixelValues.append(image[i+fI][j+fJ])
+                    except IndexError:
+                        pass
+            pixelValues.sort()
+            newValue = pixelValues[int((len(pixelValues)-1)/2)]
+            newImage[i][j] = newValue
+
+    timeAfterApplyingFilter = time.clock()
+    runtimeApplyingFilter = timeAfterApplyingFilter - timeBeforeApplyingFilter
+    cv2.imwrite("outputs/fogNoiseNewSelectiveMedianFilterBasic.png", newImage)
+    print("Runtime for applying enhanced selective median filter: " + str(runtimeApplyingFilter))
+    return runtimeApplyingFilter
+
+def selectiveMedianFilter():
+    basicRuntime = selectiveMedianFilterBasic()
+    enhancedRuntime = selectiveMedianFilterEnhanced()
+    runtimeApplyingFilter = basicRuntime - enhancedRuntime
+    print("Runtime difference between enhanced selective median filter and basic selective median filter: " + str(runtimeApplyingFilter))
 
 
 def contrastStrecthing():
@@ -132,7 +168,7 @@ def mystery():
     for i in range (len(image)):
         for j in range (len(image[i])):
             value = modifiedImage[i][j] - image[i][j]
-            newImage[i][j] = value
+            newImage[i][j] = 150 + value
 
     cv2.imwrite("outputs/mysteryNew.png", newImage)
 
