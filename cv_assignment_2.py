@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import time
-
+from copy import deepcopy
 
 # Define helper functions
 def getHistogram(image):
@@ -74,9 +74,10 @@ def selectiveMedianFilterBasic():
                         pixelValues.append(image[i+fI][j+fJ])
                     except IndexError:
                         pass
-            pixelValues.sort()
-            newValue = pixelValues[int((len(pixelValues)-1)/2)]
-            newImage[i][j] = newValue
+            if len(pixelValues) > 0:
+                pixelValues.sort()
+                newValue = pixelValues[int((len(pixelValues)-1)/2)]
+                newImage[i][j] = newValue
 
     timeAfterApplyingFilter = time.clock()
     runtimeApplyingFilter = timeAfterApplyingFilter - timeBeforeApplyingFilter
@@ -86,7 +87,7 @@ def selectiveMedianFilterBasic():
 
 def selectiveMedianFilterEnhanced():
     image = cv2.imread("inputs/fognoise.png",0)
-    newImage = np.zeros((len(image),len(image[0]),3), np.uint8)
+    newImage = deepcopy(image)
     timeBeforeApplyingFilter = time.clock()
 
     for i in range (len(image)):
@@ -103,13 +104,14 @@ def selectiveMedianFilterEnhanced():
                         pixelValues.append(image[i+fI][j+fJ])
                     except IndexError:
                         pass
-            pixelValues.sort()
-            newValue = pixelValues[int((len(pixelValues)-1)/2)]
-            newImage[i][j] = newValue
+            if len(pixelValues) > 0:
+                pixelValues.sort()
+                newValue = pixelValues[int((len(pixelValues)-1)/2)]
+                newImage[i][j] = newValue
 
     timeAfterApplyingFilter = time.clock()
     runtimeApplyingFilter = timeAfterApplyingFilter - timeBeforeApplyingFilter
-    cv2.imwrite("outputs/fogNoiseNewSelectiveMedianFilterBasic.png", newImage)
+    cv2.imwrite("outputs/fogNoiseNewSelectiveMedianFilterEnhanced.png", newImage)
     print("Runtime for applying enhanced selective median filter: " + str(runtimeApplyingFilter))
     return runtimeApplyingFilter
 
