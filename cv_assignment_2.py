@@ -1,22 +1,27 @@
 import cv2
 import numpy as np
 
+def getHistogram(image):
+    histogram = np.full((256), 0)
+    for i in range (len(image)):
+            for j in range (len(image[i])):
+                value = image[i][j]
+                histogram[value] += 1
+    return histogram
+
+def getCommHistogram(image):
+    commHistogram = np.full((256), 0)
+    histogram = getHistogram(image)
+    commHistogram[0] = histogram[0]
+    for i in range (1, 256):
+        commHistogram[i] = histogram[i] + commHistogram[i - 1]
+    return commHistogram
+
 def printHistAndCommHist(inputPath, outputPath):
     # init basic vars
     cameraman = cv2.imread(inputPath,0)
-    cameramanHistogram = np.full((256), 0)
-    cameramanCommHistogram = np.full((256), 0)
-
-    # get histogram
-    for i in range (len(cameraman)):
-        for j in range (len(cameraman[i])):
-            value = cameraman[i][j]
-            cameramanHistogram[value] += 1
-
-    # get comm histogram
-    cameramanCommHistogram[0] = cameramanHistogram[0]
-    for i in range (1, 256):
-        cameramanCommHistogram[i] = cameramanHistogram[i] + cameramanCommHistogram[i - 1]
+    cameramanHistogram = getHistogram(cameraman)
+    cameramanCommHistogram = getCommHistogram(cameraman)
 
     # create new image
     cameramanNew = np.zeros((512,1024,3), np.uint8)
