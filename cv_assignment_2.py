@@ -47,6 +47,23 @@ def cameraManMean():
     cv2.imwrite("outputs/cameramanNewFilteredGaus.png", cameramanFilteredGaus)
     printHistAndCommHist("outputs/cameramanNewFilteredGaus.png", "outputs/cameramanNewFilteredGausHisAndCommHis.png")
 
+def contrastStrecthing():
+    image = cv2.imread("inputs/frostfog.png",0)
+    newImage = np.zeros((len(image),len(image[0]),3), np.uint8)
+    a = 0
+    b = 255
+    c = min(image.flatten())
+    d = max(image.flatten())
+    scalingFactor = (b-a)/(d-c);
+
+    for i in range (len(image)):
+        for j in range (len(image[i])):
+            value = image[i][j]
+            newValue = ((value-c)*scalingFactor) + a
+            newImage[i][j] = newValue
+
+    cv2.imwrite("outputs/frostfogNewContrastStretching.png", newImage)
+    printHistAndCommHist("outputs/frostfogNewContrastStretching.png", "outputs/frostfogNewContrastStretchingHisAndCommHis.png")
 
 def mystery():
     originalImage = cv2.imread("inputs/tree.png",0)
@@ -68,5 +85,7 @@ printHistAndCommHist("inputs/fog.png", "outputs/fogNewHisAndCommHis.png")
 printHistAndCommHist("inputs/fognoise.png", "outputs/fognoiseNewHisAndCommHis.png")
 
 cameraManMean()
+
+contrastStrecthing()
 
 mystery()
