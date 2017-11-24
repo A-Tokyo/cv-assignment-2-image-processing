@@ -95,7 +95,7 @@ def selectiveMedianFilterEnhanced():
             value = image[i][j]
             pixelValues = []
 
-            if image[i][j] < 150 or image[i][j] > 35:
+            if image[i][j] < 150 and image[i][j] > 35:
                 continue
 
             for fI in range (-2, 3):
