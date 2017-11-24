@@ -60,9 +60,27 @@ def meanVsGaus():
 
 def selectiveMedianFilter():
     image = cv2.imread("inputs/fognoise.png",0)
-    timeBeforeApplyingFilter = time.time()
-    timeAfterApplyingFilter = time.time()
-    runtimeApplyingFilter = timeAfterApplyingFilter - timeAfterApplyingFilter
+    newImage = np.zeros((len(image),len(image[0]),3), np.uint8)
+    timeBeforeApplyingFilter = time.clock()
+
+    for i in range (len(image)):
+        for j in range (len(image[i])):
+            value = image[i][j]
+            pixelValues = []
+
+            for fI in range (-2, 3):
+                for fJ in range (-2, 3):
+                    try:
+                        pixelValues.append(image[i+fI][j+fJ])
+                    except IndexError:
+                        pass
+            pixelValues.sort()
+            newValue = pixelValues[int((len(pixelValues)-1)/2)]
+            newImage[i][j] = newValue
+
+    timeAfterApplyingFilter = time.clock()
+    runtimeApplyingFilter = timeAfterApplyingFilter - timeBeforeApplyingFilter
+    cv2.imwrite("outputs/fogNoiseNewSelectiveMedianFilterBasic.png", newImage)
     print("Runtime for applying selective median filter: " + str(runtimeApplyingFilter))
 
 
